@@ -1,29 +1,27 @@
-# Asterra 活世界 Demo
+# Asterra Demo v2 — 2.5D Prototype
 
-這是一個完全靜態、目前沒有串 OpenAI API 的第一版原型。
+這一版是針對視覺與「進入地點後真的看到場景」重做的版本。
 
-## 目前包含
-- 世界地圖 / 城市地圖
-- 四座城市
-- 市內與跨城市移動時間
-- 市政廳：承租 / 購屋 / 新建概念
-- 社會住宅、房租、房屋介面
-- 家具與特殊活動解鎖
-- AI 居民自主移動（本地模擬）
-- 同地點面對面互動
-- AI 不會因為同地點就一直重複搭話
-- 親密互動可接受 / 猶豫 / 拒絕
-- 非上帝視角
-- 城市事件
-- LocalStorage 保存瀏覽器內遊玩狀態
+## v2 主要變更
+- 城市改成 2.5D / 斜角迷你模型感
+- 世界地圖改為城市縮景
+- 點地點後顯示上方小型移動進度條
+- 移動時不再出現中央彈窗
+- 抵達後會自動進入該地點場景
+- 港口咖啡館有真正的場景配置：吧檯、窗邊、桌椅
+- 場景中的居民會出現在不同位置
+- 居民可呈現「坐在窗邊、站在吧檯和店主聊天、看手機」等狀態
+- 玩家點居民後，互動選項會出現在右側，不遮住場景
+- 市政廳、社會住宅、表演碼頭等也有各自的場景模板
+- 房屋改成 2.5D 空間感，買家具後會實際出現在房內
+- 目前完全沒有串 GPT / OpenAI API，因此不產生 API 費用
 
-## GitHub Pages 發布
-1. 在 GitHub 建立新的 Public repository，建議名稱：`asterra-demo`
-2. 把 `index.html`、`styles.css`、`app.js`、`README.md` 放到 repository 根目錄
-3. Repository → Settings → Pages
-4. Build and deployment → Source：Deploy from a branch
-5. Branch：main，Folder：/ (root)
-6. Save
-7. 等待 GitHub 顯示 Pages 網址
+## GitHub 更新方式
+把以下三個檔案覆蓋到 repository 根目錄即可：
+- index.html
+- styles.css
+- app.js
 
-目前沒有使用 GPT，因此不會產生 OpenAI API 費用。
+README.md 可一起更新，但不是網站執行必要檔案。
+
+GitHub Pages 已經開啟的話，commit 後通常會自動重新部署。
