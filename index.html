@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Asterra 活世界 Demo</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div><div class="eyebrow">ASTERRA · LOCAL PROTOTYPE</div><h1>Asterra 活世界</h1></div>
+  <div class="clockbox"><div id="clock">--:--:--</div><small id="date"></small></div>
+</header>
+<nav class="tabs">
+  <button class="tab active" data-screen="world">世界</button>
+  <button class="tab" data-screen="city">城市</button>
+  <button class="tab" data-screen="live">即時互動 <span id="liveBadge"></span></button>
+  <button class="tab" data-screen="house">房屋</button>
+  <button class="tab" data-screen="phone">手機</button>
+</nav>
+<main>
+<section id="screen-world" class="screen active">
+  <div class="layout">
+    <div class="world-map card">
+      <div class="sea-label">ASTERRA SEA</div>
+      <div class="route r1"></div><div class="route r2"></div><div class="route r3"></div>
+      <button class="world-city current" data-city="A" style="left:7%;top:13%"><span class="city-art harbor"></span><b>潮港城</b><small>海港 · 音樂 · 自由業</small></button>
+      <button class="world-city" data-city="B" style="right:7%;top:13%"><span class="city-art academia"></span><b>月樹城</b><small>學術 · 湖泊 · 植物園</small></button>
+      <button class="world-city" data-city="D" style="left:10%;bottom:11%"><span class="city-art forest"></span><b>霧森城</b><small>森林 · 霧湖 · 慢生活</small></button>
+      <button class="world-city" data-city="C" style="right:9%;bottom:11%"><span class="city-art metro"></span><b>曜城</b><small>高樓 · 商業 · 夜生活</small></button>
+    </div>
+    <aside class="side">
+      <div class="card pad" id="worldLocation"></div>
+      <div class="card pad"><div class="title-row"><h3>你知道的世界動態</h3><span class="chip">非上帝視角</span></div><div id="worldFeed" class="feed"></div></div>
+    </aside>
+  </div>
+</section>
+<section id="screen-city" class="screen">
+  <div class="city-head"><div><div class="eyebrow">CITY MAP</div><h2 id="cityTitle"></h2></div><button id="toWorld" class="ghost">世界地圖</button></div>
+  <div class="layout">
+    <div id="cityCanvas" class="city-map card"><div class="coast"></div><div class="road road1"></div><div class="road road2"></div><div class="road road3"></div><div class="green g1"></div><div class="green g2"></div><div id="placeLayer"></div><div id="peopleLayer"></div></div>
+    <aside class="side">
+      <div class="card pad" id="cityLocation"></div>
+      <div class="card pad"><h3>同地點的人</h3><div id="samePlace" class="stack"></div></div>
+      <div class="card pad"><h3>城市消息</h3><div id="cityFeed" class="feed short"></div></div>
+    </aside>
+  </div>
+</section>
+<section id="screen-live" class="screen">
+  <div class="live-layout">
+    <aside class="card pad"><h3>你眼前的人</h3><p class="muted" id="livePlace"></p><div id="nearbyList" class="stack"></div></aside>
+    <div class="card live-card">
+      <div class="portrait-stage"><div class="portrait" id="portraitInitial">?</div><div><div class="eyebrow">FACE TO FACE</div><h2 id="liveName">附近沒有人</h2><p class="muted" id="liveStatus"></p></div></div>
+      <div id="liveLog" class="dialogue"></div>
+      <div id="liveActions" class="action-grid"></div>
+      <form id="liveForm" class="chatbar"><input id="liveInput" placeholder="當面說……" disabled><button id="liveSend" class="primary" disabled>說話</button></form>
+    </div>
+  </div>
+</section>
+<section id="screen-house" class="screen">
+  <div class="house-layout">
+    <div>
+      <div class="card house-summary"><div><div class="eyebrow">MY HOME</div><h2 id="houseName"></h2><p class="muted" id="houseMeta"></p></div><button id="payRent" class="primary">繳房租</button></div>
+      <div class="card apartment">
+        <div class="room"><b>臥室</b><span class="big">🛏️</span></div><div class="room"><b>浴室</b><span class="big">🛁</span></div>
+        <div class="room"><b>客廳</b><div id="livingItems" class="room-items"></div></div><div class="room"><b>料理區</b><div id="kitchenItems" class="room-items"></div></div>
+      </div>
+      <div class="card pad"><h3>家裡可以做的事</h3><div id="homeActivities" class="action-grid nopad"></div></div>
+    </div>
+    <aside class="side">
+      <div class="card pad"><h3>租約 / 房產</h3><div id="rentStatus" class="notice"></div><div id="propertyList" class="stack"></div></div>
+      <div class="card pad"><h3>家具商店</h3><div class="stack"><button class="shop" data-furniture="kitchen" data-price="900">完整廚房 <span>900</span></button><button class="shop" data-furniture="table" data-price="350">餐桌 <span>350</span></button><button class="shop" data-furniture="sofa" data-price="500">沙發 <span>500</span></button><button class="shop" data-furniture="console" data-price="650">遊戲主機 <span>650</span></button></div></div>
+    </aside>
+  </div>
+</section>
+<section id="screen-phone" class="screen">
+  <div class="phone"><div class="phone-top"><b>夏彌的手機</b><span id="phoneTime"></span></div><div id="phoneHome" class="phone-body"><div id="phoneSummary" class="card pad"></div><div class="app-grid"><button data-phone-app="messages">訊息<small id="messageMini"></small></button><button data-phone-app="news">城市新聞<small>公開事件</small></button><button data-phone-app="contacts">聯絡人<small id="contactMini"></small></button><button data-phone-app="jobs">工作中心<small>職缺與委託</small></button><button data-phone-app="housing">房屋<small>租約與房產</small></button><button data-phone-app="wallet">錢包<small id="walletMini"></small></button></div></div><div id="phoneApp" class="phone-body hidden"><button id="phoneBack" class="ghost">← 返回</button><div id="phoneContent"></div></div></div>
+</section>
+</main>
+<div id="travelOverlay" class="overlay"><div class="modal card"><div class="eyebrow">TRAVELLING</div><h2 id="travelTitle"></h2><p class="muted" id="travelSub"></p><div class="progress"><span id="travelProgress"></span></div><small id="travelRemaining"></small></div></div>
+<div id="hallOverlay" class="overlay"><div class="modal card"><div class="modal-head"><div><div class="eyebrow">CITY HALL</div><h2 id="hallTitle"></h2></div><button id="closeHall" class="ghost">關閉</button></div><div class="hall-grid"><button id="hallRent" class="service"><b>承租空間</b><small>住宅、店面、工作室</small></button><button id="hallBuy" class="service"><b>購買房屋</b><small>查看出售中的住宅</small></button><button id="hallBuild" class="service"><b>申請新建</b><small>土地、用途、施工</small></button></div><div id="hallResult"></div></div></div>
+<div id="activityOverlay" class="overlay"><div class="modal card"><div class="modal-head"><div><div class="eyebrow">ACTIVITY</div><h2 id="activityTitle"></h2></div><button id="closeActivity" class="ghost">關閉</button></div><div id="activityBody"></div></div></div>
+<div id="toast"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
