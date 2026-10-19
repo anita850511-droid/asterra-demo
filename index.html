@@ -142,7 +142,40 @@
     </section>
 
     <section id="screen-place" class="screen">
-      <div class="place-shell">
+      <div id="artSceneWrap" class="art-scene-wrap hidden" aria-label="市政廳視覺場景">
+        <img class="art-scene-image" src="cityhall-ui.png" alt="Asterra 市政廳 2.5D 場景" />
+
+        <!-- 直接點場景角色 -->
+        <button class="art-hotspot actor reception-hotspot" data-art-target="reception" aria-label="接待員"></button>
+        <button class="art-hotspot actor resident-hotspot" data-art-target="resident" aria-label="等候的居民"></button>
+        <button class="art-hotspot actor guard-hotspot" data-art-target="guard" aria-label="守衛"></button>
+
+        <!-- 直接點場景物件 -->
+        <button class="art-hotspot object counter-hotspot" data-art-target="counter" aria-label="市政櫃台"></button>
+        <button class="art-hotspot object board-hotspot" data-art-target="board" aria-label="公告欄"></button>
+
+        <!-- 圖中右側欄也可點 -->
+        <button class="art-hotspot sidebar resident-side-hotspot" data-art-target="resident" aria-label="右側：等候的居民"></button>
+        <button class="art-hotspot sidebar dialogue-side-hotspot" data-art-target="resident" aria-label="右側：對話"></button>
+        <button class="art-hotspot sidebar housing-side-hotspot" data-art-target="housing" aria-label="右側：詢問房產資訊"></button>
+        <button class="art-hotspot sidebar exit-hotspot" data-art-target="exit" aria-label="離開市政廳"></button>
+
+        <div id="artDialogue" class="art-dialogue hidden">
+          <div class="art-dialogue-head">
+            <div>
+              <div class="eyebrow">FACE TO FACE</div>
+              <b id="artDialogueName">角色</b>
+            </div>
+            <button id="artDialogueClose" class="art-mini-btn">收起</button>
+          </div>
+          <div id="artDialogueText" class="art-dialogue-text"></div>
+          <div id="artDialogueActions" class="art-dialogue-actions"></div>
+        </div>
+
+        <div class="art-scene-hint">可直接點畫面中的人物、櫃台與公告欄</div>
+      </div>
+
+      <div id="normalPlaceWrap" class="place-shell">
         <div>
           <div class="screen-head">
             <div>

@@ -198,3 +198,173 @@ main,.screen{max-width:1480px;margin:auto}
   .city-diorama{transform:scale(.82);transform-origin:top left}
   .scene{min-height:540px}
 }
+
+
+/* =========================================================
+   v3 — approved artwork scene prototype
+   The generated mockup becomes the actual interactive scene.
+   ========================================================= */
+body.art-immersive{
+  padding:0;
+  background:#040912;
+  overflow-x:hidden;
+}
+body.art-immersive .topbar,
+body.art-immersive .tabs{
+  display:none;
+}
+body.art-immersive main,
+body.art-immersive #screen-place{
+  max-width:none;
+  width:100%;
+  margin:0;
+}
+body.art-immersive #screen-place{
+  min-height:100vh;
+}
+body.art-immersive #travelStrip{
+  position:fixed;
+  left:18px;
+  right:18px;
+  top:14px;
+  z-index:400;
+}
+.art-scene-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:1672 / 941;
+  max-height:100vh;
+  background:#02060c;
+  overflow:hidden;
+  user-select:none;
+}
+.art-scene-image{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#02060c;
+}
+.art-hotspot{
+  position:absolute;
+  z-index:30;
+  border:1px solid transparent;
+  border-radius:14px;
+  background:transparent;
+  padding:0;
+  cursor:pointer;
+  transition:background .15s ease,border-color .15s ease,box-shadow .15s ease;
+}
+.art-hotspot:hover,
+.art-hotspot:focus-visible{
+  outline:none;
+  border-color:rgba(170,222,255,.86);
+  background:rgba(80,158,211,.12);
+  box-shadow:0 0 0 3px rgba(91,171,221,.12), inset 0 0 28px rgba(130,205,255,.08);
+}
+.art-hotspot.actor:hover::after{
+  content:"點擊互動";
+  position:absolute;
+  left:50%;
+  bottom:102%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  color:#eef8ff;
+  background:rgba(6,17,29,.9);
+  border:1px solid rgba(151,204,236,.45);
+  border-radius:999px;
+  padding:5px 9px;
+  font-size:11px;
+}
+.reception-hotspot{left:13.2%;top:39.5%;width:10.2%;height:27%}
+.resident-hotspot{left:50.2%;top:49.5%;width:8.6%;height:26%}
+.guard-hotspot{left:49.7%;top:38.2%;width:6.7%;height:17.5%}
+.counter-hotspot{left:11.5%;top:49.2%;width:29%;height:27.5%}
+.board-hotspot{left:70.8%;top:35.5%;width:9.7%;height:31%}
+.resident-side-hotspot{left:83.2%;top:15.5%;width:14.5%;height:7.5%}
+.dialogue-side-hotspot{left:83.2%;top:52.1%;width:14.5%;height:6.2%}
+.housing-side-hotspot{left:83.2%;top:58.7%;width:14.5%;height:6.3%}
+.exit-hotspot{left:83.2%;top:84.2%;width:14.5%;height:7.2%}
+
+.art-dialogue{
+  position:absolute;
+  z-index:80;
+  left:31%;
+  right:20%;
+  bottom:3.2%;
+  min-height:136px;
+  border:1px solid rgba(112,163,203,.62);
+  border-radius:18px;
+  padding:14px 15px;
+  background:
+    linear-gradient(180deg,rgba(14,31,51,.95),rgba(6,17,30,.96));
+  box-shadow:0 18px 50px rgba(0,0,0,.48);
+  backdrop-filter:blur(13px);
+}
+.art-dialogue-head{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+}
+.art-dialogue-head b{
+  display:block;
+  margin-top:3px;
+  font-size:18px;
+}
+.art-dialogue-text{
+  margin-top:9px;
+  color:#dce8f1;
+  line-height:1.55;
+  font-size:13px;
+}
+.art-dialogue-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:11px;
+}
+.art-mini-btn,
+.art-dialogue-actions button{
+  border:1px solid rgba(103,160,203,.65);
+  border-radius:999px;
+  background:#173651;
+  color:#ecf7ff;
+  padding:7px 12px;
+  cursor:pointer;
+}
+.art-mini-btn{
+  padding:5px 9px;
+  font-size:11px;
+}
+.art-dialogue-actions button:hover,
+.art-mini-btn:hover{
+  background:#225078;
+}
+.art-scene-hint{
+  position:absolute;
+  z-index:25;
+  left:50%;
+  bottom:1.2%;
+  transform:translateX(-50%);
+  pointer-events:none;
+  color:rgba(228,241,249,.72);
+  background:rgba(5,14,25,.62);
+  border:1px solid rgba(113,159,192,.24);
+  border-radius:999px;
+  padding:5px 10px;
+  font-size:10px;
+}
+@media(max-width:900px){
+  .art-scene-wrap{
+    width:100vw;
+    height:auto;
+    min-height:0;
+  }
+  .art-dialogue{
+    left:17%;
+    right:4%;
+    bottom:2%;
+  }
+  .art-scene-hint{display:none}
+}

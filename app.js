@@ -88,6 +88,10 @@
   function toast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("show"),2200)}
 
   function switchScreen(name){
+    if(name!=="place"){
+      document.body.classList.remove("art-immersive");
+      $("#screen-place")?.classList.remove("art-mode");
+    }
     $$(".screen").forEach(s=>s.classList.toggle("active",s.id==="screen-"+name));
     $$(".tab").forEach(t=>t.classList.toggle("active",t.dataset.screen===name));
     if(name==="world") renderWorld();
@@ -261,9 +265,109 @@
     addWorld("夏彌認識了 "+ai.name+"。");
   }
 
+  const artActors = {
+    reception:{
+      name:"接待員",
+      text:"她正在處理市政服務。你靠近後，她抬頭確認你需要辦理什麼。",
+      actions:[
+        ["詢問房屋承租", "市政廳可以查詢目前可承租的住宅、店面與工作室。正式版會連到實際房源。"],
+        ["詢問購屋", "她向你說明購屋需要查看出售物件、價格與你的資金狀況。"],
+        ["詢問新建", "她說新建要先選土地與用途，再進入申請、施工與完工流程。"]
+      ]
+    },
+    resident:{
+      name:"等候的居民",
+      text:"對方坐在等候區看著手上的資料。你可以直接從場景點他開始當面互動。",
+      actions:[
+        ["打招呼", "對方抬起頭：「嗨，你也是來辦事情的嗎？」"],
+        ["聊聊天", "你們壓低聲音聊了幾句。這裡目前還是本地模擬台詞，之後可換成模型。"],
+        ["詢問房產資訊", "他說自己正在看租屋資料，但不一定知道所有最新房源。"]
+      ]
+    },
+    guard:{
+      name:"守衛",
+      text:"守衛正在留意大廳出入口與人流。",
+      actions:[
+        ["打招呼", "守衛禮貌地向你點頭。"],
+        ["詢問方向", "他告訴你房產相關窗口在大廳右側。"]
+      ]
+    },
+    counter:{
+      name:"市政櫃台",
+      text:"這裡可以辦理戶籍、證件與房產相關市政服務。",
+      actions:[
+        ["查看房產業務", "承租、購屋、新建等業務會在這裡進入實際流程。"],
+        ["抽號碼牌", "你抽了一張號碼牌。原型暫時不模擬完整排隊時間。"]
+      ]
+    },
+    board:{
+      name:"公告欄",
+      text:"公告欄上會顯示城市公開資訊、建案、市政公告與部分房屋資訊。",
+      actions:[
+        ["查看公告", "你快速瀏覽了今天的市政公告。"],
+        ["查看房屋資訊", "正式版會從世界狀態即時產生可租、可買與施工中的物件。"]
+      ]
+    },
+    housing:{
+      name:"房產資訊",
+      text:"這裡會整理目前公開的租屋、售屋、空地與建案資訊。",
+      actions:[
+        ["承租住宅", "下一步會接成實際房源清單，而不是彈出純文字視窗。"],
+        ["購買房屋", "下一步會讓你從真正在城市裡的物件挑選。"],
+        ["申請新建", "下一步會串接土地、用途、成本與施工時間。"]
+      ]
+    }
+  };
+
+  function showArtInteraction(target){
+    if(target==="exit"){
+      hideArtDialogue();
+      document.body.classList.remove("art-immersive");
+      $("#screen-place")?.classList.remove("art-mode");
+      switchScreen("city");
+      return;
+    }
+    const info=artActors[target];
+    if(!info)return;
+    $("#artDialogueName").textContent=info.name;
+    $("#artDialogueText").textContent=info.text;
+    $("#artDialogueActions").innerHTML=info.actions.map(([label])=>`<button data-art-action="${target}" data-art-label="${label}">${label}</button>`).join("");
+    $("#artDialogue").classList.remove("hidden");
+    $$("[data-art-action]").forEach(btn=>{
+      btn.onclick=()=>{
+        const actor=artActors[btn.dataset.artAction];
+        const pair=actor.actions.find(x=>x[0]===btn.dataset.artLabel);
+        if(pair) $("#artDialogueText").textContent=pair[1];
+      };
+    });
+  }
+
+  function hideArtDialogue(){
+    $("#artDialogue")?.classList.add("hidden");
+  }
+
+  function renderCityHallArtwork(){
+    document.body.classList.add("art-immersive");
+    $("#screen-place").classList.add("art-mode");
+    $("#artSceneWrap").classList.remove("hidden");
+    $("#normalPlaceWrap").classList.add("hidden");
+    hideArtDialogue();
+  }
+
   function renderPlace(){
     const place=placeById(state.player.place);
     if(!place)return;
+
+    if(place.id==="A-hall"){
+      renderCityHallArtwork();
+      return;
+    }
+
+    document.body.classList.remove("art-immersive");
+    $("#screen-place").classList.remove("art-mode");
+    $("#artSceneWrap").classList.add("hidden");
+    $("#normalPlaceWrap").classList.remove("hidden");
+
     const spec=sceneSpec(place);
     $("#placeTitle").textContent=place.name;
     $("#placeSubtitle").textContent=spec.subtitle;
@@ -479,6 +583,17 @@
   $$(".tab").forEach(b=>b.onclick=()=>switchScreen(b.dataset.screen));
   $$(".city-diorama").forEach(b=>b.onclick=()=>travelCity(b.dataset.city));
   $("#payRent").onclick=payRent;
+
+  $$("[data-art-target]").forEach(btn=>{
+    btn.onclick=()=>showArtInteraction(btn.dataset.artTarget);
+  });
+  $("#artDialogueClose").onclick=hideArtDialogue;
+  document.addEventListener("keydown",(e)=>{
+    if(e.key==="Escape" && document.body.classList.contains("art-immersive")){
+      if(!$("#artDialogue").classList.contains("hidden")) hideArtDialogue();
+      else showArtInteraction("exit");
+    }
+  });
 
   renderAll();
   setInterval(renderClock,1000);
