@@ -5,14 +5,61 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#0b1a2a" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <title>Asterra · 潮港城 v4.2</title>
-  <link rel="stylesheet" href="styles-v42.css" />
+  <title>Asterra · v4.3 角色建立</title>
+  <link rel="stylesheet" href="styles-v43.css" />
 </head>
 <body>
+<div id="authScreen" class="auth-screen">
+  <div class="auth-backdrop"></div>
+  <div class="auth-shell">
+    <section id="loginStep" class="auth-card auth-login">
+      <div class="auth-brand"><small>WELCOME TO</small><h1>Asterra</h1><p>先建立你的外觀。姓名與生日會在進入潮港城後，到市政廳完成居民登記時才填寫。</p></div>
+      <div id="savedProfilePreview" class="saved-profile hidden"></div>
+      <div class="auth-actions">
+        <button id="newProfileBtn" class="primary-auth">建立新角色</button>
+        <button id="continueProfileBtn" class="secondary-auth hidden">繼續目前角色</button>
+        <button id="editProfileBtn" class="secondary-auth hidden">修改目前外觀</button>
+      </div>
+      <p class="prototype-note">此版本是本機登入原型：資料只保存在目前瀏覽器，不是雲端帳號系統。</p>
+    </section>
+
+    <section id="creatorStep" class="creator-shell hidden">
+      <div class="creator-preview-pane">
+        <div class="creator-title"><small>CHARACTER CREATOR</small><h2>建立角色外觀</h2><p>現在只決定長相與基礎服飾。你還沒有居民姓名。</p></div>
+        <div class="avatar-stage">
+          <div id="avatarPreview" class="avatar-preview"></div>
+          <div class="avatar-shadow"></div>
+        </div>
+        <div class="creator-preview-actions">
+          <button id="randomizeAvatar" class="ghost-auth">隨機外觀</button>
+          <button id="resetAvatar" class="ghost-auth">回到預設</button>
+        </div>
+      </div>
+      <div class="creator-controls-pane">
+        <div class="creator-scroll">
+          <section class="creator-group"><h3>膚色</h3><div id="skinOptions" class="swatch-grid"></div></section>
+          <section class="creator-group"><h3>眼型</h3><div id="eyeOptions" class="option-grid"></div></section>
+          <section class="creator-group"><h3>眉型</h3><div id="browOptions" class="option-grid"></div></section>
+          <section class="creator-group"><h3>鼻型</h3><div id="noseOptions" class="option-grid"></div></section>
+          <section class="creator-group"><h3>嘴型</h3><div id="mouthOptions" class="option-grid"></div></section>
+          <section class="creator-group"><h3>髮型</h3><div id="hairStyleOptions" class="option-grid hair-grid"></div></section>
+          <section class="creator-group"><h3>髮色</h3><div id="hairColorOptions" class="swatch-grid"></div></section>
+          <section class="creator-group"><h3>瞳孔顏色</h3><div id="irisOptions" class="swatch-grid"></div></section>
+          <section class="creator-group"><h3>基礎服飾</h3><div id="outfitOptions" class="outfit-grid"></div></section>
+        </div>
+        <div class="creator-footer">
+          <button id="backToLogin" class="secondary-auth">返回</button>
+          <button id="saveAvatar" class="primary-auth">以此外觀進入 Asterra</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
 <div id="app">
   <header class="topbar">
-    <div class="brand"><b>Asterra</b><span>潮港城 · v4.2 市政廳流程</span></div>
-    <div class="topstats"><span id="clock">--:--</span><span>◈ <b id="money">12,840</b></span></div>
+    <div class="brand"><b>Asterra</b><span>潮港城 · v4.3 角色建立</span></div>
+    <div class="topstats"><span id="playerLabel">未登記居民</span><span id="clock">--:--</span><span>◈ <b id="money">12,840</b></span></div>
   </header>
 
   <div id="travelStrip" class="travel-strip hidden">
@@ -34,9 +81,10 @@
         <button class="world-btn" id="worldBtn">世界地圖</button>
       </div>
       <aside class="panel">
+        <div class="panel-section player-summary"><small>你的角色</small><div id="playerSummaryAvatar" class="player-summary-avatar"></div><h2 id="playerSummaryName">未登記居民</h2><p id="playerSummaryMeta">尚未完成居民資料登記。</p></div>
         <div class="panel-section"><small>你目前在</small><h2 id="currentPlace">西灣住宅區</h2><p id="currentState">點建築名稱氣泡即可前往。</p></div>
         <div class="panel-section"><small>你知道的城市消息</small><div id="feed" class="feed"></div></div>
-        <div class="panel-section note"><small>測試工具</small><p>若要重看首次居民登記流程，可清除目前原型進度。</p><button id="resetDemo" class="minor-btn">重置首次流程</button></div>
+        <div class="panel-section note"><small>測試工具</small><p>可重置居民登記流程，或回到登入畫面修改外觀。</p><div class="tool-row"><button id="resetDemo" class="minor-btn">重置首次流程</button><button id="returnLogin" class="minor-btn">登入／修改外觀</button></div></div>
       </aside>
     </section>
 
@@ -63,8 +111,21 @@
     <p id="dialogueText"></p>
     <div id="dialogueActions" class="dialogue-actions"></div>
   </div>
+
+  <div id="registrationModal" class="registration-modal hidden">
+    <form id="registrationForm" class="registration-card">
+      <div class="registration-head"><div><small>RESIDENT REGISTRATION</small><h2>潮港城居民登記</h2></div><button type="button" id="registrationClose">×</button></div>
+      <p>這一步才會建立你的正式居民資料。外觀已經建立，但姓名與生日目前仍是空白。</p>
+      <label>姓名<input id="regName" type="text" maxlength="24" autocomplete="off" placeholder="輸入角色姓名" required></label>
+      <label>生日<input id="regBirthday" type="date" required></label>
+      <label>自我稱呼（選填）<input id="regPronoun" type="text" maxlength="20" autocomplete="off" placeholder="例如：她／他／TA，或留白"></label>
+      <div class="resident-id-line"><span>居民編號</span><b id="residentIdPreview"></b></div>
+      <button class="primary-auth" type="submit">確認登記</button>
+    </form>
+  </div>
+
   <div id="toast" class="toast"></div>
 </div>
-<script src="app-v42.js"></script>
+<script src="app-v43.js"></script>
 </body>
 </html>
