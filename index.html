@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#171a1f" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <title>Asterra · v4.5 角色建立器測試</title>
-  <link rel="stylesheet" href="styles-v45.css" />
+  <title>Asterra · v4.6 即時角色預覽</title>
+  <link rel="stylesheet" href="styles-v46.css?v=46" />
 </head>
 <body>
 <div id="app" class="app-shell">
@@ -15,7 +15,7 @@
     <div class="brand-mark">✦</div>
     <div>
       <h1>ASTERRA</h1>
-      <div class="creator-label">角色建立 <span>CHARACTER CREATOR</span></div>
+      <div class="creator-label">角色建立 <span>CHARACTER CREATOR · v4.6 LIVE PREVIEW</span></div>
     </div>
   </header>
 
@@ -32,13 +32,9 @@
           </div>
         </div>
         <div id="portraitViewport" class="portrait-viewport">
-          <img id="faceImage" class="preview-image face-image" src="assets/creator-face.png" alt="角色正面預覽" />
-          <img id="bodyImage" class="preview-image body-image hidden" src="assets/creator-body.png" alt="角色全身預覽" />
-          <div id="skinTint" class="skin-tint"></div>
-          <div id="hairTint" class="hair-tint"></div>
-          <i id="irisLeft" class="iris-dot"></i><i id="irisRight" class="iris-dot"></i>
+          <canvas id="avatarCanvas" aria-label="角色即時預覽"></canvas>
           <div class="preview-vignette"></div>
-          <div id="previewHint" class="preview-hint">臉部與身形滑桿會做近似預覽；正式版會改由 3D 模型實際變形。</div>
+          <div id="previewHint" class="preview-hint">拖動右側參數會直接改變角色預覽。此版使用即時影像變形驗證捏角手感；正式版會改由可動畫的 3D 角色模型承接相同參數。</div>
         </div>
         <div class="preview-footer">
           <div><small>目前狀態</small><b id="activeSummary">臉型 01</b></div>
@@ -70,7 +66,7 @@
     <div class="save-card">
       <small>CHARACTER RECIPE SAVED</small>
       <h2>外觀參數已儲存</h2>
-      <p>這個測試版會把角色設定保存在目前瀏覽器。姓名、生日仍然留到市政廳居民登記時輸入。</p>
+      <p>這個測試版會把角色設定保存在目前瀏覽器。姓名、生日仍留到市政廳居民登記時輸入。</p>
       <pre id="recipePreview"></pre>
       <div class="save-actions">
         <button id="continueEditing" class="subtle">繼續調整</button>
@@ -80,6 +76,6 @@
   </div>
   <div id="toast" class="toast"></div>
 </div>
-<script src="app-v45.js"></script>
+<script src="app-v46.js?v=46"></script>
 </body>
 </html>
