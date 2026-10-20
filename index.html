@@ -3,271 +3,60 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#101b2d" />
-  <title>Asterra v2 · 2.5D Prototype</title>
+  <meta name="theme-color" content="#0b1a2a" />
+  <title>Asterra · 潮港城動態城市原型</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <div id="app">
   <header class="topbar">
-    <div>
-      <div class="eyebrow">ASTERRA · 2.5D LIVING WORLD PROTOTYPE</div>
-      <h1>Asterra 活世界</h1>
-    </div>
-    <div class="status-cluster">
-      <div class="money">◈ <span id="moneyText">2,800</span></div>
-      <div class="clockbox">
-        <b id="clock">--:--</b>
-        <small id="date"></small>
-      </div>
-    </div>
+    <div class="brand"><b>Asterra</b><span>潮港城 · 活世界原型</span></div>
+    <div class="topstats"><span id="clock">--:--</span><span>◈ <b id="money">12,840</b></span></div>
   </header>
 
-  <nav class="tabs">
-    <button class="tab active" data-screen="world">世界</button>
-    <button class="tab" data-screen="city">城市</button>
-    <button class="tab" data-screen="place">地點</button>
-    <button class="tab" data-screen="house">房屋</button>
-    <button class="tab" data-screen="phone">手機</button>
-  </nav>
-
   <div id="travelStrip" class="travel-strip hidden">
-    <div class="travel-copy">
-      <b id="travelTitle">移動中</b>
-      <span id="travelMeta"></span>
-    </div>
-    <div class="travel-line"><span id="travelProgress"></span></div>
-    <div id="travelRemain" class="travel-remain"></div>
+    <div class="travel-row"><b id="travelTitle">移動中</b><span id="travelMeta"></span><span id="travelRemain"></span></div>
+    <div class="travel-track"><i id="travelBar"></i></div>
   </div>
 
   <main>
-    <section id="screen-world" class="screen active">
-      <div class="screen-head">
-        <div>
-          <div class="eyebrow">WORLD MAP</div>
-          <h2>世界地圖</h2>
-        </div>
-        <p>四座城市各自生活、發展、開店、歇業與產生事件。</p>
+    <section id="cityScreen" class="screen active">
+      <div class="city-stage" id="cityStage">
+        <img src="assets/chaogang-base.png" alt="潮港城" class="city-bg" />
+        <div id="buildingBubbles" class="building-bubbles"></div>
+        <div class="map-title"><small>CITY MAP</small><h1>潮港城</h1><p>建築名稱以氣泡顯示；不在地圖上塞建築說明。</p></div>
+        <button class="world-btn" id="worldBtn">世界地圖</button>
       </div>
-
-      <div class="world-shell">
-        <div class="world-board card">
-          <div class="world-ocean"></div>
-          <div class="world-contour c1"></div>
-          <div class="world-contour c2"></div>
-          <div class="world-contour c3"></div>
-
-          <button class="city-diorama harbor-city" data-city="A" style="left:7%;top:12%">
-            <span class="city-base"></span>
-            <span class="mini-building b1"></span><span class="mini-building b2"></span><span class="mini-building b3"></span>
-            <span class="mini-dock"></span>
-            <span class="city-label"><b>潮港城</b><small>海港 · 音樂 · 自由業</small></span>
-          </button>
-
-          <button class="city-diorama moon-city" data-city="B" style="right:7%;top:12%">
-            <span class="city-base"></span>
-            <span class="mini-tree t1"></span><span class="mini-tree t2"></span><span class="mini-building b1"></span>
-            <span class="mini-lake"></span>
-            <span class="city-label"><b>月樹城</b><small>學術 · 湖泊 · 植物園</small></span>
-          </button>
-
-          <button class="city-diorama mist-city" data-city="D" style="left:9%;bottom:10%">
-            <span class="city-base"></span>
-            <span class="mini-tree t1"></span><span class="mini-tree t2"></span><span class="mini-tree t3"></span>
-            <span class="mini-cabin"></span>
-            <span class="city-label"><b>霧森城</b><small>森林 · 霧湖 · 慢生活</small></span>
-          </button>
-
-          <button class="city-diorama sun-city" data-city="C" style="right:8%;bottom:10%">
-            <span class="city-base"></span>
-            <span class="mini-tower tower1"></span><span class="mini-tower tower2"></span><span class="mini-building b1"></span>
-            <span class="city-label"><b>曜城</b><small>高樓 · 商業 · 夜生活</small></span>
-          </button>
-
-          <div class="route route-a"></div>
-          <div class="route route-b"></div>
-          <div class="route route-c"></div>
-        </div>
-
-        <aside class="side-panel card">
-          <div class="side-block">
-            <div class="eyebrow">CURRENT</div>
-            <h3 id="worldCurrent"></h3>
-            <p id="worldCurrentSub"></p>
-          </div>
-          <div class="divider"></div>
-          <div class="side-block">
-            <div class="row-between"><h3>你知道的世界動態</h3><span class="pill">非上帝視角</span></div>
-            <div id="worldFeed" class="feed"></div>
-          </div>
-        </aside>
-      </div>
+      <aside class="panel">
+        <div class="panel-section"><small>你目前在</small><h2 id="currentPlace">潮港社會住宅</h2><p id="currentState">點建築名稱氣泡即可前往。</p></div>
+        <div class="panel-section"><small>你知道的城市消息</small><div id="feed" class="feed"></div></div>
+        <div class="panel-section note"><small>正式世界</small><p>建築屬於獨立資料物件。未來可新建、停業、改裝、拆除；城市底圖不需要整張重畫。</p></div>
+      </aside>
     </section>
 
-    <section id="screen-city" class="screen">
-      <div class="screen-head">
-        <div>
-          <div class="eyebrow">CITY MAP · 2.5D</div>
-          <h2 id="cityTitle">潮港城</h2>
-        </div>
-        <p id="citySubtitle"></p>
+    <section id="placeScreen" class="screen">
+      <div class="scene-frame" id="sceneFrame">
+        <img id="sceneImage" class="scene-image" alt="地點場景" />
+        <div class="scene-mask"></div>
+        <div id="peopleLayer" class="people-layer"></div>
+        <div id="objectLayer" class="object-layer"></div>
+        <button id="backToCity" class="back-chip">← 城市地圖</button>
+        <div class="scene-title"><small>你已抵達</small><h1 id="sceneTitle"></h1></div>
       </div>
-
-      <div class="city-shell">
-        <div id="cityBoard" class="city-board card">
-          <div class="iso-ground"></div>
-          <div class="iso-water"></div>
-          <div class="street s1"></div>
-          <div class="street s2"></div>
-          <div class="street s3"></div>
-          <div class="green-zone gz1"></div>
-          <div class="green-zone gz2"></div>
-          <div id="buildingLayer"></div>
-          <div id="cityPeopleLayer"></div>
-        </div>
-
-        <aside class="side-panel card">
-          <div class="side-block">
-            <div class="eyebrow">CURRENT LOCATION</div>
-            <h3 id="cityCurrent"></h3>
-            <p id="cityCurrentSub"></p>
-          </div>
-          <div class="divider"></div>
-          <div class="side-block">
-            <h3>城市消息</h3>
-            <div id="cityFeed" class="feed compact"></div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="screen-place" class="screen">
-      <div id="artSceneWrap" class="art-scene-wrap hidden" aria-label="市政廳視覺場景">
-        <img class="art-scene-image" src="cityhall-ui.png" alt="Asterra 市政廳 2.5D 場景" />
-
-        <!-- 直接點場景角色 -->
-        <button class="art-hotspot actor reception-hotspot" data-art-target="reception" aria-label="接待員"></button>
-        <button class="art-hotspot actor resident-hotspot" data-art-target="resident" aria-label="等候的居民"></button>
-        <button class="art-hotspot actor guard-hotspot" data-art-target="guard" aria-label="守衛"></button>
-
-        <!-- 直接點場景物件 -->
-        <button class="art-hotspot object counter-hotspot" data-art-target="counter" aria-label="市政櫃台"></button>
-        <button class="art-hotspot object board-hotspot" data-art-target="board" aria-label="公告欄"></button>
-
-        <!-- 圖中右側欄也可點 -->
-        <button class="art-hotspot sidebar resident-side-hotspot" data-art-target="resident" aria-label="右側：等候的居民"></button>
-        <button class="art-hotspot sidebar dialogue-side-hotspot" data-art-target="resident" aria-label="右側：對話"></button>
-        <button class="art-hotspot sidebar housing-side-hotspot" data-art-target="housing" aria-label="右側：詢問房產資訊"></button>
-        <button class="art-hotspot sidebar exit-hotspot" data-art-target="exit" aria-label="離開市政廳"></button>
-
-        <div id="artDialogue" class="art-dialogue hidden">
-          <div class="art-dialogue-head">
-            <div>
-              <div class="eyebrow">FACE TO FACE</div>
-              <b id="artDialogueName">角色</b>
-            </div>
-            <button id="artDialogueClose" class="art-mini-btn">收起</button>
-          </div>
-          <div id="artDialogueText" class="art-dialogue-text"></div>
-          <div id="artDialogueActions" class="art-dialogue-actions"></div>
-        </div>
-
-        <div class="art-scene-hint">可直接點畫面中的人物、櫃台與公告欄</div>
-      </div>
-
-      <div id="normalPlaceWrap" class="place-shell">
-        <div>
-          <div class="screen-head">
-            <div>
-              <div class="eyebrow">PLACE SCENE · 2.5D</div>
-              <h2 id="placeTitle">目前所在地</h2>
-            </div>
-            <p id="placeSubtitle"></p>
-          </div>
-
-          <div id="scene" class="scene card">
-            <div class="scene-floor"></div>
-            <div id="sceneFurniture"></div>
-            <div id="scenePeople"></div>
-          </div>
-        </div>
-
-        <aside class="side-panel card scene-sidebar">
-          <div class="side-block">
-            <div class="eyebrow">SCENE</div>
-            <h3 id="sceneActionTitle">場景操作</h3>
-            <div id="sceneActions" class="action-stack"></div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="side-block">
-            <div class="eyebrow">PEOPLE HERE</div>
-            <h3>現場的人</h3>
-            <div id="peopleHere" class="people-list"></div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="side-block">
-            <div class="eyebrow">OBSERVED</div>
-            <h3>你眼前看到的</h3>
-            <div id="observed" class="observed"></div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="screen-house" class="screen">
-      <div class="screen-head">
-        <div><div class="eyebrow">HOME</div><h2 id="houseTitle">潮港社會住宅 302 室</h2></div>
-        <p>住宅內的家具會真正影響可以進行的生活與共同活動。</p>
-      </div>
-
-      <div class="house-shell">
-        <div class="home-scene card">
-          <div class="home-floor"></div>
-          <div class="home-wall wall-left"></div>
-          <div class="home-wall wall-back"></div>
-          <div class="home-object home-bed">🛏</div>
-          <div class="home-object home-bath">🛁</div>
-          <div id="homeDynamic"></div>
-          <div class="home-avatar">夏</div>
-        </div>
-
-        <aside class="side-panel card">
-          <div class="side-block">
-            <div class="eyebrow">LEASE</div>
-            <h3>租約 / 房產</h3>
-            <div id="rentBox" class="notice"></div>
-            <button id="payRent" class="primary wide">繳本期房租</button>
-          </div>
-          <div class="divider"></div>
-          <div class="side-block">
-            <h3>家具</h3>
-            <div id="furnitureShop" class="action-stack"></div>
-          </div>
-          <div class="divider"></div>
-          <div class="side-block">
-            <h3>家中活動</h3>
-            <div id="homeActivities" class="action-stack"></div>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section id="screen-phone" class="screen">
-      <div class="phone-shell card">
-        <div class="phone-top">
-          <b>夏彌的手機</b>
-          <span id="phoneTime"></span>
-        </div>
-        <div id="phoneContent" class="phone-content"></div>
-      </div>
+      <aside class="panel">
+        <div class="panel-section"><small>現場</small><h2 id="placeHeading"></h2><p id="placeText"></p></div>
+        <div class="panel-section"><small>現場的人</small><div id="peopleList" class="people-list"></div></div>
+        <div class="panel-section"><small>可進行的互動</small><div id="actionList" class="action-list"></div></div>
+      </aside>
     </section>
   </main>
 
-  <div id="toast"></div>
+  <div id="dialogue" class="dialogue hidden">
+    <div class="dialogue-head"><div><small>FACE TO FACE</small><b id="dialogueName"></b></div><button id="dialogueClose">×</button></div>
+    <p id="dialogueText"></p>
+    <div id="dialogueActions" class="dialogue-actions"></div>
+  </div>
+  <div id="toast" class="toast"></div>
 </div>
 <script src="app.js"></script>
 </body>
