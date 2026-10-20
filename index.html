@@ -3,111 +3,83 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#e9eef3" />
+  <meta name="theme-color" content="#171a1f" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <title>Asterra · v4.4 3D 角色建立</title>
-  <link rel="stylesheet" href="styles-v44.css" />
+  <title>Asterra · v4.5 角色建立器測試</title>
+  <link rel="stylesheet" href="styles-v45.css" />
 </head>
 <body>
-<div id="authScreen" class="auth-screen">
-  <div class="auth-bg"></div>
-  <div class="auth-shell">
-    <section id="loginStep" class="login-card">
-      <div class="login-mark">✦</div>
-      <small>WELCOME TO</small>
-      <h1>Asterra</h1>
-      <p>先建立你的外觀。姓名與生日會在進入潮港城後，到市政廳完成居民登記時才建立。</p>
-      <div id="savedProfilePreview" class="saved-profile hidden"></div>
-      <div class="login-actions">
-        <button id="newProfileBtn" class="btn primary">建立新角色</button>
-        <button id="continueProfileBtn" class="btn secondary hidden">繼續目前角色</button>
-        <button id="editProfileBtn" class="btn secondary hidden">修改目前外觀</button>
-      </div>
-      <div class="prototype-note">目前為本機角色建立原型，資料儲存在這台裝置的瀏覽器。</div>
-    </section>
-
-    <section id="creatorStep" class="creator-shell hidden">
-      <div class="creator-stage-pane">
-        <div class="creator-heading">
-          <div><small>CHARACTER CREATOR</small><h2>建立你的外觀</h2></div>
-          <div class="creator-heading-note">不填姓名 · 先決定長相</div>
-        </div>
-        <div id="creatorViewport" class="creator-viewport">
-          <canvas id="creatorCanvas"></canvas>
-          <div class="stage-halo"></div>
-          <div id="engineStatus" class="engine-status">啟動 3D 角色引擎…</div>
-          <div class="viewport-hint">拖曳旋轉 · 滾輪縮放</div>
-        </div>
-        <div class="viewport-toolbar">
-          <button id="frontView" class="chip">正面</button>
-          <button id="threeQuarterView" class="chip active">3/4</button>
-          <button id="sideView" class="chip">側面</button>
-          <span></span>
-          <button id="randomizeAvatar" class="chip">隨機外觀</button>
-          <button id="resetAvatar" class="chip">重設</button>
-        </div>
-      </div>
-
-      <div class="creator-control-pane">
-        <div class="category-rail" id="categoryRail">
-          <button data-cat="face" class="active">臉型</button>
-          <button data-cat="skin">膚色</button>
-          <button data-cat="eyes">眼睛</button>
-          <button data-cat="brows">眉毛</button>
-          <button data-cat="nose">鼻子</button>
-          <button data-cat="mouth">嘴巴</button>
-          <button data-cat="hair">髮型</button>
-          <button data-cat="hairColor">髮色</button>
-          <button data-cat="iris">瞳孔</button>
-          <button data-cat="outfit">服飾</button>
-        </div>
-        <div class="control-content">
-          <div class="control-topline"><div><small id="categoryKicker">FACE</small><h3 id="categoryTitle">臉型</h3></div><b id="categoryCount">12 種</b></div>
-          <div id="optionHost" class="option-host"></div>
-          <div id="detailHost" class="detail-host"></div>
-        </div>
-        <div class="creator-footer">
-          <button id="backToLogin" class="btn secondary">返回</button>
-          <button id="saveAvatar" class="btn primary">以此外觀進入 Asterra</button>
-        </div>
-      </div>
-    </section>
-  </div>
-</div>
-
 <div id="app" class="app-shell">
-  <header class="topbar">
-    <div class="brand"><b>Asterra</b><span>潮港城 · v4.4</span></div>
-    <div class="topstats"><span id="playerLabel">未登記居民</span><span id="clock">--:--</span><span>◈ <b id="money">12,840</b></span></div>
+  <div class="bg"></div>
+  <header class="brand-block">
+    <div class="brand-mark">✦</div>
+    <div>
+      <h1>ASTERRA</h1>
+      <div class="creator-label">角色建立 <span>CHARACTER CREATOR</span></div>
+    </div>
   </header>
-  <div id="travelStrip" class="travel-strip hidden"><div class="travel-row"><b id="travelTitle">移動中</b><span id="travelMeta"></span><span id="travelRemain"></span></div><div class="travel-track"><i id="travelBar"></i></div></div>
-  <div id="guideStrip" class="guide-strip hidden"><div><small>首次居民流程</small><b id="guideText"></b></div></div>
-  <main>
-    <section id="cityScreen" class="screen active">
-      <div class="city-stage"><img src="assets/chaogang-base.png" class="city-bg" alt="潮港城"><div id="buildingBubbles" class="building-bubbles"></div><div class="map-title"><small>CITY MAP</small><h1>潮港城</h1></div><button class="world-btn" id="worldBtn">世界地圖</button></div>
-      <aside class="panel">
-        <div class="panel-section player-summary"><small>你的角色</small><div id="playerSummaryAvatar" class="player-summary-avatar"></div><h2 id="playerSummaryName">未登記居民</h2><p id="playerSummaryMeta">尚未完成居民資料登記。</p></div>
-        <div class="panel-section"><small>你目前在</small><h2 id="currentPlace">西灣住宅區</h2><p id="currentState">點建築名稱氣泡即可前往。</p></div>
-        <div class="panel-section"><small>你知道的城市消息</small><div id="feed" class="feed"></div></div>
-        <div class="panel-section note"><small>測試工具</small><div class="tool-row"><button id="resetDemo" class="minor-btn">重置首次流程</button><button id="returnLogin" class="minor-btn">登入／修改外觀</button></div></div>
-      </aside>
+
+  <main class="creator-layout">
+    <nav id="categoryNav" class="category-nav" aria-label="角色調整分類"></nav>
+
+    <section class="preview-zone">
+      <div class="preview-card">
+        <div class="preview-toolbar">
+          <span id="cameraLabel">正面 · 臉部</span>
+          <div class="toolbar-actions">
+            <button id="undoBtn" title="撤銷">↶</button>
+            <button id="redoBtn" title="重做">↷</button>
+          </div>
+        </div>
+        <div id="portraitViewport" class="portrait-viewport">
+          <img id="faceImage" class="preview-image face-image" src="assets/creator-face.png" alt="角色正面預覽" />
+          <img id="bodyImage" class="preview-image body-image hidden" src="assets/creator-body.png" alt="角色全身預覽" />
+          <div id="skinTint" class="skin-tint"></div>
+          <div id="hairTint" class="hair-tint"></div>
+          <i id="irisLeft" class="iris-dot"></i><i id="irisRight" class="iris-dot"></i>
+          <div class="preview-vignette"></div>
+          <div id="previewHint" class="preview-hint">臉部與身形滑桿會做近似預覽；正式版會改由 3D 模型實際變形。</div>
+        </div>
+        <div class="preview-footer">
+          <div><small>目前狀態</small><b id="activeSummary">臉型 01</b></div>
+          <div class="camera-switch">
+            <button data-camera="face" class="active">臉部</button>
+            <button data-camera="body">全身</button>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section id="placeScreen" class="screen">
-      <div class="scene-frame"><img id="sceneImage" class="scene-image" alt="地點場景"><div id="sceneMask" class="scene-mask hidden"></div><div id="peopleLayer" class="people-layer"></div><div id="objectLayer" class="object-layer"></div><button id="backToCity" class="back-chip">← 回潮港城</button><div class="scene-title"><small>你已抵達</small><h1 id="sceneTitle"></h1></div></div>
-      <aside class="panel place-panel">
-        <div class="panel-section"><small>現場</small><h2 id="placeHeading"></h2><p id="placeText"></p></div>
-        <div id="queuePanel" class="panel-section hidden"><small>叫號狀態</small><div id="queueStatus" class="queue-status"></div></div>
-        <div class="panel-section"><small>現場的人</small><div id="peopleList" class="people-list"></div></div>
-        <div class="panel-section"><small>可進行的互動</small><div id="actionList" class="action-list"></div></div>
-      </aside>
-    </section>
+    <aside class="control-panel">
+      <div class="control-head">
+        <div><small>APPEARANCE</small><h2 id="panelTitle">臉型</h2></div>
+        <div id="counterLabel" class="counter">01 / 12</div>
+      </div>
+      <div id="controlContent" class="control-content"></div>
+      <div class="control-bottom">
+        <div class="utility-row">
+          <button id="randomBtn" class="subtle">隨機生成</button>
+          <button id="resetBtn" class="subtle">重置全部</button>
+        </div>
+        <button id="saveBtn" class="primary">儲存角色外觀</button>
+      </div>
+    </aside>
   </main>
 
-  <div id="dialogue" class="dialogue hidden"><div class="dialogue-head"><div><small id="dialogueKicker">互動</small><b id="dialogueName"></b></div><button id="dialogueClose">×</button></div><p id="dialogueText"></p><div id="dialogueActions" class="dialogue-actions"></div></div>
-  <div id="registrationModal" class="registration-modal hidden"><form id="registrationForm" class="registration-card"><div class="registration-head"><div><small>RESIDENT REGISTRATION</small><h2>潮港城居民登記</h2></div><button type="button" id="registrationClose">×</button></div><p>外觀已建立；這一步才會建立你的正式居民資料。</p><label>姓名<input id="regName" type="text" maxlength="24" autocomplete="off" placeholder="輸入角色姓名" required></label><label>生日<input id="regBirthday" type="date" required></label><label>自我稱呼（選填）<input id="regPronoun" type="text" maxlength="20" autocomplete="off" placeholder="例如：她／他／TA，或留白"></label><div class="resident-id-line"><span>居民編號</span><b id="residentIdPreview"></b></div><button class="btn primary" type="submit">確認登記</button></form></div>
+  <div id="saveSheet" class="save-sheet hidden">
+    <div class="save-card">
+      <small>CHARACTER RECIPE SAVED</small>
+      <h2>外觀參數已儲存</h2>
+      <p>這個測試版會把角色設定保存在目前瀏覽器。姓名、生日仍然留到市政廳居民登記時輸入。</p>
+      <pre id="recipePreview"></pre>
+      <div class="save-actions">
+        <button id="continueEditing" class="subtle">繼續調整</button>
+        <button id="confirmSave" class="primary">完成</button>
+      </div>
+    </div>
+  </div>
   <div id="toast" class="toast"></div>
 </div>
-<script type="module" src="app-v44.js"></script>
+<script src="app-v45.js"></script>
 </body>
 </html>
