@@ -2,15 +2,16 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#0b1a2a" />
-  <title>Asterra · 潮港城動態城市原型</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <title>Asterra · 潮港城 v4.2</title>
+  <link rel="stylesheet" href="styles-v42.css" />
 </head>
 <body>
 <div id="app">
   <header class="topbar">
-    <div class="brand"><b>Asterra</b><span>潮港城 · 活世界原型</span></div>
+    <div class="brand"><b>Asterra</b><span>潮港城 · v4.2 市政廳流程</span></div>
     <div class="topstats"><span id="clock">--:--</span><span>◈ <b id="money">12,840</b></span></div>
   </header>
 
@@ -19,32 +20,38 @@
     <div class="travel-track"><i id="travelBar"></i></div>
   </div>
 
+  <div id="guideStrip" class="guide-strip hidden">
+    <div><small>首次居民流程</small><b id="guideText"></b></div>
+    <button id="guideAction" class="hidden">前往</button>
+  </div>
+
   <main>
     <section id="cityScreen" class="screen active">
       <div class="city-stage" id="cityStage">
         <img src="assets/chaogang-base.png" alt="潮港城" class="city-bg" />
         <div id="buildingBubbles" class="building-bubbles"></div>
-        <div class="map-title"><small>CITY MAP</small><h1>潮港城</h1><p>建築名稱以氣泡顯示；不在地圖上塞建築說明。</p></div>
+        <div class="map-title"><small>CITY MAP</small><h1>潮港城</h1></div>
         <button class="world-btn" id="worldBtn">世界地圖</button>
       </div>
       <aside class="panel">
-        <div class="panel-section"><small>你目前在</small><h2 id="currentPlace">潮港社會住宅</h2><p id="currentState">點建築名稱氣泡即可前往。</p></div>
+        <div class="panel-section"><small>你目前在</small><h2 id="currentPlace">西灣住宅區</h2><p id="currentState">點建築名稱氣泡即可前往。</p></div>
         <div class="panel-section"><small>你知道的城市消息</small><div id="feed" class="feed"></div></div>
-        <div class="panel-section note"><small>正式世界</small><p>建築屬於獨立資料物件。未來可新建、停業、改裝、拆除；城市底圖不需要整張重畫。</p></div>
+        <div class="panel-section note"><small>測試工具</small><p>若要重看首次居民登記流程，可清除目前原型進度。</p><button id="resetDemo" class="minor-btn">重置首次流程</button></div>
       </aside>
     </section>
 
     <section id="placeScreen" class="screen">
       <div class="scene-frame" id="sceneFrame">
         <img id="sceneImage" class="scene-image" alt="地點場景" />
-        <div class="scene-mask"></div>
+        <div id="sceneMask" class="scene-mask hidden"></div>
         <div id="peopleLayer" class="people-layer"></div>
         <div id="objectLayer" class="object-layer"></div>
-        <button id="backToCity" class="back-chip">← 城市地圖</button>
+        <button id="backToCity" class="back-chip">← 回潮港城</button>
         <div class="scene-title"><small>你已抵達</small><h1 id="sceneTitle"></h1></div>
       </div>
-      <aside class="panel">
+      <aside class="panel place-panel">
         <div class="panel-section"><small>現場</small><h2 id="placeHeading"></h2><p id="placeText"></p></div>
+        <div id="queuePanel" class="panel-section hidden"><small>叫號狀態</small><div id="queueStatus" class="queue-status"></div></div>
         <div class="panel-section"><small>現場的人</small><div id="peopleList" class="people-list"></div></div>
         <div class="panel-section"><small>可進行的互動</small><div id="actionList" class="action-list"></div></div>
       </aside>
@@ -52,12 +59,12 @@
   </main>
 
   <div id="dialogue" class="dialogue hidden">
-    <div class="dialogue-head"><div><small>FACE TO FACE</small><b id="dialogueName"></b></div><button id="dialogueClose">×</button></div>
+    <div class="dialogue-head"><div><small id="dialogueKicker">互動</small><b id="dialogueName"></b></div><button id="dialogueClose" aria-label="關閉">×</button></div>
     <p id="dialogueText"></p>
     <div id="dialogueActions" class="dialogue-actions"></div>
   </div>
   <div id="toast" class="toast"></div>
 </div>
-<script src="app.js"></script>
+<script src="app-v42.js"></script>
 </body>
 </html>
